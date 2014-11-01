@@ -15,6 +15,7 @@ module.exports = function(karma) {
     files: [
 
       // Program files
+      '_public/requireNodeShim.js',
       '_public/js/vendor.js',
       '_public/js/app.js',
 
