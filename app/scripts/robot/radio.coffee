@@ -82,7 +82,8 @@ angular.module('daemon.radio', [])
 
     #convert 64 bit data representation to a string
     readUInt64 = (buff, offset) ->
-      return [i.toString(16) for i in buff.slice(offset, offset + 8)].join("")
+      result = [i.toString(16) for i in buff.slice(offset, offset + 8)][0].join("")
+      return result
 
     #should be called once to set up all _ndl3Radio listeners
     radio.setupListeners = () ->
