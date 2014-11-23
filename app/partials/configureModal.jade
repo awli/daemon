@@ -1,0 +1,19 @@
+//div(ng-controller = "ConfigureCtrl")
+div.modal-header
+  h3.modal-title Configuration
+div.modal-body
+  .input-group.input-group-sm
+    span.input-group-addon Radio Address
+    input.form-control(ng-model="radioAddr", placeholder="Radio Address")
+  .input-group.input-group-sm
+    span.input-group-addon COM Port
+    input.form-control(ng-model="portPath", placeholder="Select a COM Port")
+  span.label.label-success(ng-show="radio.initialized()") Radio initialized
+  span.label.label-danger(ng-hide="radio.initialized()") Radio not initialized
+  button.btn.btn-success(ng-click="radio.init(radioAddr, portPath") Init
+  button.btn.btn-danger(ng-click="radio.close()") Close Radio
+div.modal-footer
+  button.btn.btn-default(ng-click="exitModal(false)") Cancel
+  button.btn.btn-primary(ng-click="exitModal(true)") Save Configuration
+
+

@@ -3,7 +3,8 @@ angular.module('daemon.configure', ['daemon.radio'])
     "$scope"
     "$interval"
     "radio"
-    ($scope, $interval, radio) ->
+    "$modalInstance"
+    ($scope, $interval, radio, $modalInstance) ->
       #0013A2004086336B
       storeR = DataStore.create('simple')
       $scope.radio = radio
@@ -24,4 +25,7 @@ angular.module('daemon.configure', ['daemon.radio'])
             )
       $scope.updatePortPathList()
       $interval($scope.updatePortPathList, 500)
+
+      $scope.exitModal = (save) ->
+
   ]
