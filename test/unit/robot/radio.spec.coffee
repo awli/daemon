@@ -4,22 +4,18 @@ describe "daemon.radio", ->
   radio = undefined
   $interval = undefined
   callbackfn = undefined
-  beforeEach -> 
+  beforeEach ->
     module "daemon.radio"
     inject (_radio_) -> radio = _radio_
     inject (_$interval_) -> $interval = _$interval_
-    radio.enableMock()
     callbackfn = jasmine.createSpy('callbackfn')
 
-  describe "when initialized", -> 
+###
+  describe "when initialized", ->
 
     beforeEach -> radio.init()
     it "should report an initialized radio", ->
       expect(radio.initialized()).toBe(true)
-    it "should create mock events", ->
-      radio.onReceive('mock', callbackfn)
-      $interval.flush(101)
-      expect(callbackfn).toHaveBeenCalled()
     it "should send", ->
       expect(radio.send('mock', {})).toBe true
     describe "and then closed", ->
@@ -32,7 +28,6 @@ describe "daemon.radio", ->
         $interval.flush(101)
         expect(callbackfn).not.toHaveBeenCalled()
 
-        
   describe "when not initialized", ->
     it "should not report an initialized radio", ->
       expect(radio.initialized()).toBe(false)
@@ -44,3 +39,4 @@ describe "daemon.radio", ->
     it "should not send", ->
       return_value = radio.send('mock', {})
       expect(return_value).toBe false
+###
