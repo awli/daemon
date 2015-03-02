@@ -1,13 +1,12 @@
 language: node_js
 node_js:
-- '0.10.32'
+- '0.10.36'
 before_install:
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
 - npm install
 - bower install
 - brunch b
-- npm install -g nodewebkit
 script:
 - ./run_tests.sh
 notifications:
