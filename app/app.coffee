@@ -12,6 +12,7 @@ App = angular.module('daemon', [
   'edit'
   'navigation'
   'debug'
+  'robot'
 ])
 
 App.config([
