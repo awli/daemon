@@ -12,6 +12,6 @@ angular.module('ansible', [])
 
 .service 'robotInfo', ->
   return -> {
-    battery: 0.6,
-    wireless_strength: 0.7
+    battery: Math.random() * .5 + .25,
+    wireless_strength: Math.random() * .5 + .25
   }
