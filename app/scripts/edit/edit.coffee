@@ -11,6 +11,8 @@ angular.module('edit', ['ui.ace', 'ansible'])
     # Does several things, including defining the editor
     setup = (ed) ->
       editor = ed
+      # PythonMode = ace.require('ace/mode/python').Mode
+      # editor.getSession().setMode('ace/mode/python')
       editor.setShowPrintMargin(false)
       loadState()
       editor.focus()

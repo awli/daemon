@@ -4,8 +4,8 @@ div.container-fluid(ng-controller='EditCtrl')
     onChange : aceChanged,\
     useWrapMode : true,\
     showGutter: true,\
-    theme: 'monokai',\
-    mode: 'lua' }")
+    mode: 'python',\
+    theme: 'monokai'}")
   div#buts.pull-right
     button.btn.btn-success(ng-click="sendEditorData()") Deploy to Robot
   div#console(ui-ace="{ \
