@@ -16,8 +16,4 @@ div(ng-app='ng-app')
             a.sensor(href="", style='padding-right:5px;float: left', ng-click="SensorClick(sensor)", data-toggle="tooltip", data-placement="top", title='{{sensor.description}} did: {{sensor.did}}') {{sensor.name}}
             div.progress(ng-click="SensorClick(sensor)")
               div.progress-bar(style='width: {{sensor.data_normalized}}%;')
-    div.panel.panel-default
-      .panel-heading
-        h4.panel-title Connection Status
-      .panel-body
-      div.panel-body(ng-include="'/partials/robot_status.html'")
+    div.panel.panel-default(ng-include="'/partials/robot_status.html'")
