@@ -1,5 +1,3 @@
-motors = []
-
 class Motor(object):
 
     def __init__(self):
@@ -7,3 +5,5 @@ class Motor(object):
 
     def set_speed(self, speed):
         print "Motor speed set to %d" % speed
+
+motors = [Motor()]
