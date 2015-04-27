@@ -56,14 +56,24 @@ def init():
 def send(msg):
     send_queue.put_nowait(msg)
 
+# Interprets a message and returns an AMessage if it is of AMessage format
+def interpret_message(msg):
+    # msg is a dictionary
+    if msg and msg['header'] and msg['header']['msg_type'] and msg['content']:
+        return AMessage(msg['header']['msg_type'], msg['content'])
+    else:
+        return msg
+
 # Receives a message, or None if there is no current message.
 # If block is True, blocks.
 def recv(block=False):
     if block:
-        return recv_queue.get()
+        msg = recv_queue.get()
+        return interpret_message(msg)
     else:
         try:
-            return recv_queue.get_nowait()
+            msg = recv_queue.get_nowait()
+            return interpret_message(msg)
         except Empty:
             return None
 
