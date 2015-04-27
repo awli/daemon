@@ -4,7 +4,7 @@ angular.module('ansible', [])
 
 .service 'ansible', ->
 
-  HOSTNAME = '192.168.0.100'
+  HOSTNAME = 'localhost'
   PORT = 12345
   socket = io("http://#{HOSTNAME}:#{PORT}")
 
