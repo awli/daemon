@@ -1,8 +1,12 @@
 from multiprocessing import Process
-import api
+import Robot
 import usercode
 
-p = Process(target=usercode.teleop)
+# set up proxy objects
+robot_proxy = api.Robot # temporary
+
+p = Process(target=usercode.teleop, \
+    args=(robot_proxy, gamepad_proxy))
 
 p.start()
 p.join()

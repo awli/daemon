@@ -1,6 +1,4 @@
 # example usercode
-from api import Robot, Gamepad
-
-def teleop():
+def teleop(robot, gamepad):
     while True:
-        Robot.motors[0].set_speed(Gamepad.axes[0])
+        robot.motors[0].set_speed(gamepad.axes[0])

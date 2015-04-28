@@ -49,6 +49,7 @@ def receiver(port, recv_queue):
     while True:
         msg = socket.recv()
         parsed = yaml.load(msg)
+        print 'Got message in receiver!'
         recv_queue.put(parsed)
 
 send_queue = None

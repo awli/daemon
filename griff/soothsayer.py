@@ -1,11 +1,8 @@
 """Soothsayer is a module for interpreting things that come into ansible
-
-You pass Soothsayer pykka actors for messages.
 """
 import ansible
 from ansible import AMessage
 from multiprocessing import Process, Manager
-from threading import Thread
 
 actors = {}
 
@@ -16,13 +13,14 @@ def on(msg_type, actor):
     else:
         actors[msg_type] = [actor]
 
-def main():
+def main(actors):
     while True:
         msg = ansible.recv(block=True)
         if isinstance(msg, AMessage):
+            print 'got AMessage'
             target_actors = actors.get(msg.msg_type, [])
             for actor in target_actors:
-                assert isinstance(msg.content, dict)
-                actor.tell(msg.content)
+                print 'calling thread'
+                actor(msg)
 
-Thread(target=main).start()
+Process(target=main, args=(actors,)).start()
