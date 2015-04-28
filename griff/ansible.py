@@ -24,6 +24,12 @@ class AMessage(object):
             'content': self.content
         }
 
+    def __str__(self):
+        return "<AMessage type '%s'>" % self.msg_type
+
+    def __repr__(self):
+        return "AMessage(%s, %s)" % (self.msg_type, repr(self.content))
+
 # Sender process.
 def sender(port, send_queue):
     context = zmq.Context()
