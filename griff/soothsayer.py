@@ -1,25 +1,28 @@
 """Soothsayer is a module for interpreting things that come into ansible
+
+You pass Soothsayer pykka actors for messages.
 """
 import ansible
 from ansible import AMessage
 from multiprocessing import Process, Manager
 from threading import Thread
 
-callbacks = {}
+actors = {}
 
 # on, like in EventEmitters
-def on(msg_type, fn):
-    if msg_type in callbacks:
-        callbacks[msg_type].append(fn)
+def on(msg_type, actor):
+    if msg_type in actors:
+        actors[msg_type].append(actor)
     else:
-        callbacks[msg_type] = [fn]
+        actors[msg_type] = [actor]
 
 def main():
     while True:
         msg = ansible.recv(block=True)
         if isinstance(msg, AMessage):
-            fns = callbacks.get(msg.msg_type, [])
-            for f in fns:
-                f(msg)
+            target_actors = actors.get(msg.msg_type, [])
+            for actor in target_actors:
+                assert isinstance(msg.content, dict)
+                actor.tell(msg.content)
 
 Thread(target=main).start()
