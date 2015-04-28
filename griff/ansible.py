@@ -1,6 +1,8 @@
 import zmq, yaml
-from multiprocessing import Process, Queue
-from Queue import Empty
+from multiprocessing import Process
+from multiprocessing import Queue as ProcessQueue
+from threading import Thread, Lock
+from Queue import Queue, Empty
 
 class AMessage(object):
     """Convenience class for sending Ansible Messages
@@ -51,12 +53,13 @@ def receiver(port, recv_queue):
         parsed = yaml.load(msg)
         recv_queue.put(parsed)
 
-send_queue = None
-recv_queue = None
-
-# Doesn't do anything.
-def init():
-    pass
+# Set up communcication processes.
+send_port = 12355
+recv_port = 12356
+send_queue = ProcessQueue()
+recv_queue = ProcessQueue()
+Process(target=sender, args=(send_port, send_queue)).start()
+Process(target=receiver, args=(recv_port, recv_queue)).start()
 
 # Sends a message. Not blocking.
 def send(msg):
@@ -70,27 +73,31 @@ def interpret_message(msg):
     else:
         return msg
 
-# Receives a message, or None if there is no current message.
-# If block is True, blocks.
-def recv(block=False):
-    if block:
+msg_queues = {}
+msg_type_lock = Lock()
+
+# find the correct message queue
+def get_msg_queue(msg_type):
+    with msg_type_lock: # prevent the creation of two queues
+        if msg_type not in msg_queues:
+            msg_queues[msg_type] = Queue()
+    return msg_queues[msg_type]
+
+# sorter thread task
+# continously interprets and sorts raw messages
+def sort_messages():
+    while True:
         msg = recv_queue.get()
-        return interpret_message(msg)
-    else:
-        try:
-            msg = recv_queue.get_nowait()
-            return interpret_message(msg)
-        except Empty:
-            return None
+        msg = interpret_message(msg)
+        if isinstance(msg, AMessage):
+            channel_queue = get_msg_queue(msg.msg_type)
+            channel_queue.put_nowait(msg)
 
-# Intialize on module import
-send_port = 12355
-recv_port = 12356
+# execute the sort_messages
+Thread(target=sort_messages).start()
 
-send_queue = Queue()
-recv_queue = Queue()
-
-send_process = Process(target=sender, args=(send_port, send_queue))
-recv_process = Process(target=receiver, args=(recv_port, recv_queue))
-send_process.start()
-recv_process.start()
+# Receives a message of a given message type. A thin wrapper around a Queue.
+# Takes all keyword arguments of a Queue.
+def recv(channel, **kwargs):
+    msg_queue = get_msg_queue(channel)
+    return msg_queue.get(**kwargs)
