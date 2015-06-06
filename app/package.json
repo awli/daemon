@@ -7,6 +7,7 @@
   },
   "scripts": {
     "dev": "nodemon debug ./server.js",
+    "postinstall": "gulp build",
     "start": "node ./server.js"
   },
   "dependencies": {
