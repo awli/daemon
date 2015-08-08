@@ -79,8 +79,7 @@ function handleUpdatePeripheral(action) {
  * Final Competition kluge: interprets the raw python message on the client as an UPDATE_PERIPHERAL.
  */
 function interpretPeripheralsMessage(action) {
-  setTimeout(() => {
-
+  process.nextTick(() => {
     var pythonPeripherals = action.content;
     for (let peripheralName in pythonPeripherals) {
       let peripheral = {
@@ -93,7 +92,7 @@ function interpretPeripheralsMessage(action) {
         peripheral: peripheral
       });
     }
-  }, 50);
+  });
 }
 
 RemoteRobotStore.dispatchToken = AppDispatcher.register((action) => {
