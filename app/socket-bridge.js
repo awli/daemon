@@ -5,7 +5,7 @@ module.exports = function socketBridge(app) {
   io.on('connection', function (socket) {
     console.log('Socket.io connected.');
     ansible.on('message', function (data) {
-      if (data.header != null &&
+      if (false && data.header != null &&
         data.header.msg_type != null) {
         socket.emit(data.header.msg_type, data);
         console.log('Passing data to client on event ' + data.header.msg_type + ':');
@@ -23,4 +23,4 @@ module.exports = function socketBridge(app) {
     });
   });
   return io;
-}
+};

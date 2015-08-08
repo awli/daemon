@@ -96,21 +96,6 @@ function interpretPeripheralsMessage(action) {
   }, 50);
 }
 
-/**
- * Hacking more.
- */
-
-if (process.browser) {
-  setInterval(() => {
-    AppDispatcher.dispatch({
-      type: 'peripherals',
-      content: {
-        testPeripheralHack: 5
-      }
-    });
-  }, 1000);
-}
-
 RemoteRobotStore.dispatchToken = AppDispatcher.register((action) => {
   switch (action.type) {
     case ActionTypes.UPDATE_MOTOR:

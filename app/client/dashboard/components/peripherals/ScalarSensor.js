@@ -20,7 +20,7 @@ var Motor = React.createClass({
         <h4 style={{float: 'left'}}>Scalar Sensor <small>{this.props.id}</small></h4>
         <h4 style={{float: 'right'}}> {this.props.value} </h4>
       </div>
-      <ProgressBar now={this.props.value}></ProgressBar>
+      <ProgressBar now={this.props.value} max={1000}></ProgressBar>
     </div>
     );
   }
